@@ -12,7 +12,20 @@ public class CharacterMain : MonoBehaviour{
         Idle = 0,
         Alert = 1,
         Attacking =2,
-        Panicked = 3
+        Panicked = 3,
+        Moving = 4,
+        Performing = 5
+    }
+
+    public enum ActionToPerform
+    {
+        Die = 0,
+        GoCrazy = 1,
+        Fixing = 2,
+        Healing = 3,
+        Motivating = 4,
+        Attacking = 5,
+        Confused = 6
     }
     //Array of positions to move to, acts like a queue.
     public List<GameObject> targetPositions;
@@ -22,6 +35,7 @@ public class CharacterMain : MonoBehaviour{
     private CharacterController2D controller;
 
     public CharacterStates Status;
+    public ActionToPerform DoAction;
 
     /** Enables or disables searching for paths.
      * Setting this to false does not stop any active path requests from being calculated or stop it from continuing to follow the current path.
@@ -43,6 +57,7 @@ public class CharacterMain : MonoBehaviour{
     public float endReachedDistance = 0.2F;
 
     public float ScatterFactor = 1f;
+    public float UseRadius = 1f;
 
     /** Determines how often it will search for new paths. 
 	 * If you have fast moving targets or AIs, you might want to set it to a lower value.
@@ -51,6 +66,8 @@ public class CharacterMain : MonoBehaviour{
 	public float repathRate = 0.5F;
 
     public float thinkRate = 0.1f;
+
+    public Collider2D[] surroundingObjects;
     	
 	
 	/** Holds if the end-of-path is reached
@@ -90,8 +107,6 @@ public class CharacterMain : MonoBehaviour{
 			return targetReached;
 		}
 	}
-
-    public bool PatrolMode = true;
     
     //The calculated path
     public Path path;
@@ -165,9 +180,9 @@ public class CharacterMain : MonoBehaviour{
     {
         while (true)
         {
-            speed = baseSpeed;
             if (Status == CharacterStates.Idle)
             {
+                speed = baseSpeed;
                 if (targetReached)
                 {
                     yield return new WaitForSeconds(2f);
@@ -183,9 +198,9 @@ public class CharacterMain : MonoBehaviour{
     {
         while (true)
         {
-            speed = baseSpeed * 1.5f;
             if (Status == CharacterStates.Panicked)
             {
+                speed = baseSpeed * 1.5f;
                 if (targetReached)
                 {
                     RandomTarget();
@@ -195,6 +210,7 @@ public class CharacterMain : MonoBehaviour{
         }
     }
 
+
     protected IEnumerator AlertBehavior()
     {
         while (true)
@@ -202,27 +218,104 @@ public class CharacterMain : MonoBehaviour{
             if (Status == CharacterStates.Alert)
             {
                 speed = baseSpeed * 1.5f;
-                if (!PatrolMode)
+                if (targetReached)
                 {
-                    if (targetReached)
-                    {
-                        yield return new WaitForSeconds(1f);
-                        RandomScatter();
-                        PatrolMode = true;
-                    }
+                    yield return new WaitForSeconds(1f);
+                    RandomScatter();
                 }
-                else
+            }
+            yield return new WaitForSeconds(thinkRate);
+        }
+    }
+
+    protected IEnumerator MoveBehavior()
+    {
+        while (true)
+        {
+            if (Status == CharacterStates.Moving){
+                speed = baseSpeed;
+                if (targetReached)
                 {
-                    if (targetReached)
+                    OnFinishMoveCommand();
+                }
+            }
+        }
+    }
+
+    protected IEnumerator ActionBehavior()
+    {
+        while (true)
+        {
+            if (Status == CharacterStates.Performing)
+            {
+                speed = baseSpeed;
+                if (targetReached)
+                {
+                    PerformAction(DoAction);
+                    while (Status == CharacterStates.Performing) yield return null;
+                }
+            }
+        }
+    }
+
+    public virtual void PerformAction(ActionToPerform action)
+    {
+        StartCoroutine(HasFinishedPerforming(action));
+    }
+
+    protected virtual IEnumerator HasFinishedPerforming(ActionToPerform action)
+    {
+        if (action == ActionToPerform.Fixing)
+        {
+            Physics2D.OverlapCircleNonAlloc( transform.position, UseRadius, surroundingObjects, LayerMask.NameToLayer("Usable"));
+            if (surroundingObjects.Length > 0)
+            {
+                foreach (Collider2D phys in surroundingObjects)
+                {
+                    GameObject obj = phys.gameObject;
+                    if (obj.tag == "Fixable")
                     {
-                        yield return new WaitForSeconds(1f);
-                        RandomScatter();
+                        obj.SendMessage("GetFixed");
+                        break;
                     }
                 }
             }
-            else PatrolMode = false;
-            yield return new WaitForSeconds(thinkRate);
+            yield return new WaitForSeconds(2f);
         }
+        else if (action == ActionToPerform.Healing)
+        {
+            Physics2D.OverlapCircleNonAlloc(transform.position, UseRadius, surroundingObjects, LayerMask.NameToLayer("Character"));
+            if (surroundingObjects.Length > 0)
+            {
+                foreach (Collider2D phys in surroundingObjects)
+                {
+                    GameObject obj = phys.gameObject;
+                    obj.SendMessage("Heal");
+                    break;
+                }
+            }
+            yield return new WaitForSeconds(1f);
+        }
+        else if (action == ActionToPerform.Motivating)
+        {
+            Physics2D.OverlapCircleNonAlloc(transform.position, UseRadius, surroundingObjects, LayerMask.NameToLayer("Character"));
+            if (surroundingObjects.Length > 0)
+            {
+                foreach (Collider2D phys in surroundingObjects)
+                {
+                    GameObject obj = phys.gameObject;
+                    obj.SendMessage("Motivate");
+                    break;
+                }
+            }
+            yield return new WaitForSeconds(1f);
+        }
+        else if (action == ActionToPerform.GoCrazy)
+        {
+            Status = CharacterStates.Panicked;
+            yield break;
+        }
+        Status = CharacterStates.Idle;
     }
 	
 	/** Tries to search for a path.
@@ -252,8 +345,12 @@ public class CharacterMain : MonoBehaviour{
 
     public virtual void RandomScatter()
     {
-        Vector3 dir = new Vector3(Random.value, Random.value, Random.value) * ScatterFactor;
-        transform.position + dir;
+        Vector3 dir = Random.insideUnitCircle * ScatterFactor;
+        GameObject randomWaypoint = new GameObject("Random Waypoint");
+        randomWaypoint.transform.position = transform.position + dir;
+        if (targetPositions[0] != null && targetPositions[0].name == "Random Waypoint") Destroy(randomWaypoint, 2f);
+        targetPositions.RemoveAt(0);
+        targetPositions.Insert(0, randomWaypoint);
         targetReached = false;
         OnNextTarget();
     }
@@ -268,6 +365,11 @@ public class CharacterMain : MonoBehaviour{
     public virtual void OnNextTarget()
     {
         //cool
+    }
+
+    public virtual void OnFinishMoveCommand()
+    {
+        //wow
     }
 
     	
@@ -381,7 +483,8 @@ public class CharacterMain : MonoBehaviour{
         if (currentWaypoint <= 1) currentWaypoint = 1;
 
         Vector3 dir = (vPath[currentWaypoint] - transform.position).normalized;
-        if (currentWaypoint == vPath.Count - 1 && (transform.position - targetPositions[0].transform.position).magnitude <= endReachedDistance)
+        dir.z = 0;
+        if (targetPositions[0] == null || (currentWaypoint == vPath.Count - 1 && (transform.position - targetPositions[0].transform.position).magnitude <= endReachedDistance))
         {
             if (!targetReached) { targetReached = true; OnTargetReached(); }
 
@@ -391,7 +494,7 @@ public class CharacterMain : MonoBehaviour{
         dir *= speed * Time.fixedDeltaTime;
         //Check if we are close enough to the next waypoint
         //If we are, proceed to follow the next waypoint
-        if (Vector3.Distance(transform.position, vPath[currentWaypoint]) < nextWaypointDistance)
+        if (vPath[currentWaypoint] != null && Vector3.Distance(transform.position, vPath[currentWaypoint]) < nextWaypointDistance)
         {
             currentWaypoint++;
         }

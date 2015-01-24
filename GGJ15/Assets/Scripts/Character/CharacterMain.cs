@@ -8,6 +8,7 @@ using Pathfinding;
 [AddComponentMenu("Pathfinding/AI/AIPath (generic)")]
 public class CharacterMain : MonoBehaviour{
 
+    public bool Alive = true;
     public enum CharacterStates{
         Idle = 0,
         Alert = 1,
@@ -176,9 +177,9 @@ public class CharacterMain : MonoBehaviour{
 		}
 	}
 
-    protected IEnumerator IdleBehavior()
+    protected virtual IEnumerator IdleBehavior()
     {
-        while (true)
+        while (Alive)
         {
             if (Status == CharacterStates.Idle)
             {
@@ -194,9 +195,9 @@ public class CharacterMain : MonoBehaviour{
     }
 
 
-    protected IEnumerator PanicBehavior()
+    protected virtual IEnumerator PanicBehavior()
     {
-        while (true)
+        while (Alive)
         {
             if (Status == CharacterStates.Panicked)
             {
@@ -211,9 +212,9 @@ public class CharacterMain : MonoBehaviour{
     }
 
 
-    protected IEnumerator AlertBehavior()
+    protected virtual IEnumerator AlertBehavior()
     {
-        while (true)
+        while (Alive)
         {
             if (Status == CharacterStates.Alert)
             {
@@ -228,9 +229,9 @@ public class CharacterMain : MonoBehaviour{
         }
     }
 
-    protected IEnumerator MoveBehavior()
+    protected virtual IEnumerator MoveBehavior()
     {
-        while (true)
+        while (Alive)
         {
             if (Status == CharacterStates.Moving){
                 speed = baseSpeed;
@@ -239,12 +240,13 @@ public class CharacterMain : MonoBehaviour{
                     OnFinishMoveCommand();
                 }
             }
+            yield return new WaitForSeconds(thinkRate);
         }
     }
 
-    protected IEnumerator ActionBehavior()
+    protected virtual IEnumerator ActionBehavior()
     {
-        while (true)
+        while (Alive)
         {
             if (Status == CharacterStates.Performing)
             {
@@ -256,6 +258,11 @@ public class CharacterMain : MonoBehaviour{
                 }
             }
         }
+    }
+
+    protected virtual void DoAttack()
+    {
+        //set per character
     }
 
     public virtual void PerformAction(ActionToPerform action)
@@ -314,6 +321,20 @@ public class CharacterMain : MonoBehaviour{
         {
             Status = CharacterStates.Panicked;
             yield break;
+        }
+        else if (action == ActionToPerform.Die)
+        {
+            Alive = false;
+            yield break;
+        }
+        else if (action == ActionToPerform.Confused)
+        {
+            //lol, yet to be decided
+        }
+        else if (action == ActionToPerform.Attacking)
+        {
+            DoAttack();
+            yield return new WaitForSeconds(0.5f);
         }
         Status = CharacterStates.Idle;
     }

@@ -31,10 +31,6 @@ public class Alien : CharacterMain {
         OnEnable();
     }
 
-    protected override void DoAttack()
-    {
-    }
-
     protected override void OnEnable()
     {
         lastRepath = -9999;
@@ -94,8 +90,27 @@ public class Alien : CharacterMain {
                 {
                     targetPositions.Clear();
                     targetPositions.Insert(0, Target);
+                    Status = CharacterStates.Alert;
                 }
                 else yield return new WaitForSeconds(thinkRate);
+            }
+        }
+    }
+
+    protected override void DoAttack()
+    {
+        Physics2D.OverlapCircleNonAlloc(transform.position, UseRadius, surroundingObjects, LayerMask.NameToLayer("Character"));
+        if (surroundingObjects.Length > 0f)
+        {
+            foreach (Collider2D phys in surroundingObjects)
+            {
+                if (Target == phys.gameObject)
+                {
+                    phys.gameObject.SendMessage("Hurt");
+                    Target = null;
+                    Status = CharacterStates.Panicked;
+                    break;
+                }
             }
         }
     }
@@ -106,11 +121,17 @@ public class Alien : CharacterMain {
         {
             if (Status == CharacterStates.Alert)
             {
-                speed = baseSpeed * 1.5f;
+                if ((Target.transform.position - transform.position).magnitude >= HearRadius)
+                {
+                    Status = CharacterStates.Idle;
+                    Target = null;
+                    continue;
+                }
+                speed = baseSpeed * 2f;
                 if (targetReached)
                 {
-                    yield return new WaitForSeconds(1f);
-                    RandomScatter();
+                    Status = CharacterStates.Performing;
+                    DoAction = ActionToPerform.Attacking;
                 }
             }
             yield return new WaitForSeconds(thinkRate);

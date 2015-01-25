@@ -64,28 +64,25 @@ public class Alien : CharacterMain
         {
             if (Status == CharacterStates.Idle && Target == null)
             {
-                float LeastDistance = 99999f;
-                foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
+                foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Character"))
                 {
                     if (Vector3.Distance(transform.position, obj.transform.position) <= SeeRadius)
                     {
-                        if (LeastDistance >= Vector3.Distance(obj.transform.position, transform.position))
-                        {
-                            LeastDistance = Vector3.Distance(obj.transform.position, transform.position);
-                            Target = obj.gameObject;
-                        }
+                        Target = obj as GameObject;
+                        break;
                     }
                 }
+                /*
                 if (Target == null)
                 {
                     foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
                     {
-                        if (Vector3.Distance(transform.position, obj.transform.position) <= HearRadius && Random.value <= 0.25f)
+                        if (Vector3.Distance(transform.position, obj.transform.position) <= HearRadius && Random.value <= 0.1f)
                         {
-                            Target = obj.gameObject;
+                            Target = obj;
                         }
                     }
-                }
+                }*/
                 //If after both checks we have a target then change state
                 if (Target != null)
                 {

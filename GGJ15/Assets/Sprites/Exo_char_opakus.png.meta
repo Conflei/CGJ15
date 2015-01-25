@@ -1,7 +1,19 @@
 fileFormatVersion: 2
 guid: 6e7d1fa6ebcf8274db69b9f33045c307
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Exo_char_opakus_0
+    21300002: Exo_char_opakus_1
+    21300004: Exo_char_opakus_2
+    21300006: Exo_char_opakus_3
+    21300008: Exo_char_opakus_4
+    21300010: Exo_char_opakus_5
+    21300012: Exo_char_opakus_6
+    21300014: Exo_char_opakus_7
+    21300016: Exo_char_opakus_8
+    21300018: Exo_char_opakus_9
+    21300020: Exo_char_opakus_10
+    21300022: Exo_char_opakus_11
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -25,13 +37,13 @@ TextureImporter:
   maxTextureSize: 1024
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
-    wrapMode: -1
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -42,6 +54,126 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Exo_char_opakus_0
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 142
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_opakus_1
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 142
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_opakus_2
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 142
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_opakus_3
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 98
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_opakus_4
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 98
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_opakus_5
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 98
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_opakus_6
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 55
+        width: 30
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_opakus_7
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 55
+        width: 30
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_opakus_8
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 55
+        width: 30
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_opakus_9
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 12
+        width: 30
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_opakus_10
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 12
+        width: 30
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_opakus_11
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 12
+        width: 30
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

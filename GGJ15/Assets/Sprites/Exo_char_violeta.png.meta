@@ -1,7 +1,19 @@
 fileFormatVersion: 2
 guid: f449eae410d702144aded5bafd5ba87e
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Exo_char_violeta_0
+    21300002: Exo_char_violeta_1
+    21300004: Exo_char_violeta_2
+    21300006: Exo_char_violeta_3
+    21300008: Exo_char_violeta_4
+    21300010: Exo_char_violeta_5
+    21300012: Exo_char_violeta_6
+    21300014: Exo_char_violeta_7
+    21300016: Exo_char_violeta_8
+    21300018: Exo_char_violeta_9
+    21300020: Exo_char_violeta_10
+    21300022: Exo_char_violeta_11
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -25,13 +37,13 @@ TextureImporter:
   maxTextureSize: 1024
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
-    wrapMode: -1
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -42,6 +54,126 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: Exo_char_violeta_0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 142
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_violeta_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 142
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_violeta_2
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 142
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_violeta_3
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 98
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_violeta_4
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 98
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_violeta_5
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 98
+        width: 36
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_violeta_6
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 55
+        width: 32
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_violeta_7
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 55
+        width: 32
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_violeta_8
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 55
+        width: 32
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_violeta_9
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 12
+        width: 32
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_violeta_10
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 12
+        width: 32
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_char_violeta_11
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 12
+        width: 32
+        height: 42
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

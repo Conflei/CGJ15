@@ -20,6 +20,7 @@ public class Commander : CharacterMain{
     {
         seeker = GetComponent<Seeker>();
         controller = GetComponent<CharacterController2D>();
+        animator = GetComponent<Animator>();
         startHasRun = true;
         baseSpeed = speed;
         OnEnable();
@@ -73,8 +74,12 @@ public class Commander : CharacterMain{
                 {
                     if (hit.collider.gameObject.tag == "Alien")
                     {
-                        Sanity -= 25;
-                        if (Status == CharacterStates.Idle) Status = CharacterStates.Alert;
+                        if (Status == CharacterStates.Idle)
+                        {
+                            Status = CharacterStates.Alert;
+                            Sanity -= 25;
+                            LastThreat = Time.time + ChilloutTime;
+                        }
                     }
                 }
             }

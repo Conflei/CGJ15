@@ -7,6 +7,7 @@ using Pathfinding;
 [RequireComponent(typeof(Seeker))]
 [AddComponentMenu("Pathfinding/AI/AIPath (generic)")]
 public class CharacterMain : MonoBehaviour{
+    public int DirectionEnum;
     public float Sanity = 100f;
     public float Health = 100f;
     public bool Alive = true;
@@ -39,6 +40,8 @@ public class CharacterMain : MonoBehaviour{
     public Seeker seeker;
     [HideInInspector]
     public CharacterController2D controller;
+    [HideInInspector]
+    public Animator animator;
 
     public CharacterStates Status;
     public ActionToPerform DoAction;
@@ -60,8 +63,9 @@ public class CharacterMain : MonoBehaviour{
     /** Distance to the end point to consider the end of path to be reached.
      * When this has been reached, the AI will not move anymore until the target changes and OnTargetReached will be called.
      */
-    public float endReachedDistance = 0.2F;
-
+    public float endReachedDistance = 1.2F;
+    public float ChilloutTime = 10f;
+    public float LastThreat = 0f;
     public float ScatterFactor = 1f;
     public float UseRadius = 1f;
 
@@ -134,6 +138,7 @@ public class CharacterMain : MonoBehaviour{
     {
         seeker = GetComponent<Seeker>();
         controller = GetComponent<CharacterController2D>();
+        animator = GetComponent<Animator>();
         startHasRun = true;
         baseSpeed = speed;
         OnEnable();
@@ -236,6 +241,10 @@ public class CharacterMain : MonoBehaviour{
                 {
                     yield return new WaitForSeconds(1f);
                     RandomScatter();
+                }
+                if (LastThreat <= Time.time + ChilloutTime)
+                {
+                    Status = CharacterStates.Idle;
                 }
             }
             yield return new WaitForSeconds(thinkRate);
@@ -372,7 +381,7 @@ public class CharacterMain : MonoBehaviour{
 
     public virtual void NextTarget()
     {
-        targetPositions.Insert(targetPositions.Count, targetPositions[0]);
+        if (targetPositions[0] != null) targetPositions.Insert(targetPositions.Count, targetPositions[0]);
         targetPositions.RemoveAt(0);
         targetReached = false;
         OnNextTarget();
@@ -502,6 +511,22 @@ public class CharacterMain : MonoBehaviour{
         Vector3 dir = CalculateVelocity(transform.position);
         CurrentDirection = dir;
         CurrentMagnitude = dir.sqrMagnitude;
+        if (Mathf.Max(Mathf.Abs(dir.y), Mathf.Abs(dir.x)) <= 0.00001)
+        {
+            dir = Vector3.zero;
+            DirectionEnum = 0;
+        }
+        else if (Mathf.Abs(dir.y) >= Mathf.Abs(dir.x))
+        {
+            if (dir.y >= 0) DirectionEnum = 1;
+            else DirectionEnum = 3;
+        }
+        else if (Mathf.Abs(dir.y) <= Mathf.Abs(dir.x))
+        {
+            if (dir.x >= 0) DirectionEnum = 2;
+            else DirectionEnum = 4;
+        }
+        if (animator != null) animator.SetInteger("dir", DirectionEnum);
         if (dir != Vector3.zero) controller.move(dir);
     }
 	

@@ -9,6 +9,8 @@ using Pathfinding;
 public class CharacterMain : MonoBehaviour{
 
     public bool Alive = true;
+    public Vector3 CurrentDirection;
+    public float CurrentMagnitude;
     public enum CharacterStates{
         Idle = 0,
         Alert = 1,
@@ -32,8 +34,10 @@ public class CharacterMain : MonoBehaviour{
     public List<GameObject> targetPositions;
     protected GameObject targetPosition;
 
-    private Seeker seeker;
-    private CharacterController2D controller;
+    [HideInInspector]
+    public Seeker seeker;
+    [HideInInspector]
+    public CharacterController2D controller;
 
     public CharacterStates Status;
     public ActionToPerform DoAction;
@@ -68,15 +72,15 @@ public class CharacterMain : MonoBehaviour{
 
     public float thinkRate = 0.1f;
 
-    public Collider2D[] surroundingObjects;
+    private Collider2D[] surroundingObjects;
     	
 	
 	/** Holds if the end-of-path is reached
 	 * \see TargetReached */
-	protected bool targetReached = false;
+	public bool targetReached = false;
 	
 	/** Only when the previous path has been returned should be search for a new path */
-	protected bool canSearchAgain = true;
+	public bool canSearchAgain = true;
 
     /** Do a closest point on path check when receiving path callback.
      * Usually the AI has moved a bit between requesting the path, and getting it back, and there is usually a small gap between the AI
@@ -94,11 +98,13 @@ public class CharacterMain : MonoBehaviour{
 	* Used to test if coroutines should be started in OnEnable to prevent calculating paths
 	* in the awake stage (or rather before start on frame 0).
 	*/
-	private bool startHasRun = false;
+    [HideInInspector]
+	public bool startHasRun = false;
 
     	
 	/** Time when the last path request was sent */
-	private float lastRepath = -9999;
+    [HideInInspector]
+	public float lastRepath = -9999;
 	
 
 	/** Returns if the end-of-path has been reached
@@ -130,6 +136,12 @@ public class CharacterMain : MonoBehaviour{
         startHasRun = true;
         baseSpeed = speed;
         OnEnable();
+    }
+
+    public virtual void Hurt()
+    {
+        Alive = false;
+        Destroy(gameObject, 2f);
     }
 
     /** Run at start and when reenabled.
@@ -168,7 +180,7 @@ public class CharacterMain : MonoBehaviour{
 	}
 
     /** Tries to search for a path every #repathRate seconds.
-	* \see TrySearchPath
+	* \see TrySearchPath 
 	*/
 	protected IEnumerator RepeatTrySearchPath () {
 		while (true) {
@@ -253,10 +265,11 @@ public class CharacterMain : MonoBehaviour{
                 speed = baseSpeed;
                 if (targetReached)
                 {
-                    PerformAction(DoAction);
-                    while (Status == CharacterStates.Performing) yield return null;
+                    yield return HasFinishedPerforming(DoAction);
+                    if (Status == CharacterStates.Performing) Status = CharacterStates.Idle;
                 }
             }
+            yield return new WaitForSeconds(thinkRate);
         }
     }
 
@@ -480,12 +493,14 @@ public class CharacterMain : MonoBehaviour{
 	
     public void FixedUpdate()
     {
-        if (path == null)
+        if (path == null || !Alive)
         {
             //We have no path to move after yet
             return;
         }
         Vector3 dir = CalculateVelocity(transform.position);
+        CurrentDirection = dir;
+        CurrentMagnitude = dir.sqrMagnitude;
         if (dir != Vector3.zero) controller.move(dir);
     }
 	
@@ -505,7 +520,7 @@ public class CharacterMain : MonoBehaviour{
 
         Vector3 dir = (vPath[currentWaypoint] - transform.position).normalized;
         dir.z = 0;
-        if (targetPositions[0] == null || (currentWaypoint == vPath.Count - 1 && (transform.position - targetPositions[0].transform.position).magnitude <= endReachedDistance))
+        if (targetPositions[0] == null || (currentWaypoint == vPath.Count - 1 && Vector3.Distance(transform.position, targetPositions[0].transform.position) <= endReachedDistance))
         {
             if (!targetReached) { targetReached = true; OnTargetReached(); }
 

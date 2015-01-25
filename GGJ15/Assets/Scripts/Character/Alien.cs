@@ -1,25 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class Alien : CharacterMain {
+public class Alien : CharacterMain
+{
 
     public float DownTime = 15f;
     public float HearRadius = 10f;
     public float SeeRadius = 5f;
     public float AttackRadius = 1f;
-    private Seeker seeker;
-    private CharacterController2D controller;
-    protected bool startHasRun = true;
-    protected int lastRepath = -9999;
-    public GameObject[] FleePositions;
+    public float LastTimeRoaming = -9f;
+    public List<GameObject> FleePositions;
     public GameObject Target;
 
     public void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position, HearRadius);
+        Gizmos.DrawWireSphere(transform.position, HearRadius);
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position, SeeRadius);
+        Gizmos.DrawWireSphere(transform.position, SeeRadius);
+        if (Target != null)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(Target.transform.position, 0.5f);
+        }
     }
 
     public void Start()
@@ -37,6 +41,7 @@ public class Alien : CharacterMain {
         canSearchAgain = true;
 
         lastFoundWaypointPosition = transform.position;
+        RandomScatter();
 
         if (startHasRun)
         {
@@ -48,6 +53,7 @@ public class Alien : CharacterMain {
             StartCoroutine(AlertBehavior());
             StartCoroutine(PanicBehavior());
             StartCoroutine(SenseBehavior());
+            StartCoroutine(ActionBehavior());
         }
     }
 
@@ -55,64 +61,62 @@ public class Alien : CharacterMain {
     {
         while (Alive)
         {
-            if (Status == CharacterStates.Idle)
+            if (Status == CharacterStates.Idle && Target == null)
             {
                 float LeastDistance = 99999f;
-                Physics2D.OverlapCircleNonAlloc(transform.position, SeeRadius, surroundingObjects, LayerMask.NameToLayer("Character"));
-                if (surroundingObjects.Length > 0f)
+                foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
                 {
-                    foreach (Collider2D phys in surroundingObjects)
+                    if (Vector3.Distance(transform.position, obj.transform.position) <= SeeRadius)
                     {
-                        if (LeastDistance < (phys.transform.position - transform.position).magnitude)
+                        if (LeastDistance >= Vector3.Distance(obj.transform.position, transform.position))
                         {
-                            LeastDistance = (phys.transform.position - transform.position).magnitude;
-                            Target = phys.gameObject;
+                            LeastDistance = Vector3.Distance(obj.transform.position, transform.position);
+                            Target = obj.gameObject;
                         }
                     }
                 }
-                if (Target == null){
-                    Physics2D.OverlapCircleNonAlloc(transform.position, HearRadius, surroundingObjects, LayerMask.NameToLayer("Character"));
-                    if (surroundingObjects.Length > 0f)
+                if (Target == null)
+                {
+                    foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Player"))
                     {
-                        foreach (Collider2D phys in surroundingObjects)
+                        if (Vector3.Distance(transform.position, obj.transform.position) <= HearRadius && Random.value <= 0.25f)
                         {
-                            if (LeastDistance < (phys.transform.position - transform.position).magnitude)
-                            {
-                                LeastDistance = (phys.transform.position - transform.position).magnitude;
-                                Target = phys.gameObject;
-                            }
+                            Target = obj.gameObject;
                         }
                     }
-                    if (Target != null && Random.Range(1, (int)LeastDistance) != 1) Target = null; 
                 }
                 //If after both checks we have a target then change state
                 if (Target != null)
                 {
                     targetPositions.Clear();
                     targetPositions.Insert(0, Target);
-                    Status = CharacterStates.Alert;
+                    if (Status == CharacterStates.Idle) Status = CharacterStates.Alert;
                 }
-                else yield return new WaitForSeconds(thinkRate);
             }
+            yield return new WaitForSeconds(thinkRate * 2f);
         }
     }
 
     protected override void DoAttack()
     {
-        Physics2D.OverlapCircleNonAlloc(transform.position, UseRadius, surroundingObjects, LayerMask.NameToLayer("Character"));
-        if (surroundingObjects.Length > 0f)
-        {
-            foreach (Collider2D phys in surroundingObjects)
-            {
-                if (Target == phys.gameObject)
-                {
-                    phys.gameObject.SendMessage("Hurt");
-                    Target = null;
-                    Status = CharacterStates.Panicked;
-                    break;
-                }
-            }
-        }
+        if (Target == null) return;
+        if (Target.GetComponent<CharacterMain>() != null) Target.GetComponent<CharacterMain>().Hurt();
+        Target = null;
+        Status = CharacterStates.Panicked;
+        targetPositions.Clear();
+        targetPositions.Insert(0, FleePositions[Random.Range(0, FleePositions.Count - 1)]);
+    }
+
+
+    public override void OnTargetReached()
+    {
+        //End of path has been reached
+        //If you want custom logic for when the AI has reached it's destination
+        //add it here
+        //You can also create a new script which inherits from this one
+        //and override the function in that script
+        if (Target != null) DoAttack();
+        //NextTarget();
     }
 
     protected override IEnumerator AlertBehavior()
@@ -121,17 +125,41 @@ public class Alien : CharacterMain {
         {
             if (Status == CharacterStates.Alert)
             {
-                if ((Target.transform.position - transform.position).magnitude >= HearRadius)
-                {
-                    Status = CharacterStates.Idle;
-                    Target = null;
-                    continue;
-                }
                 speed = baseSpeed * 2f;
-                if (targetReached)
+            }
+            yield return new WaitForSeconds(thinkRate);
+        }
+    }
+
+    protected override IEnumerator PanicBehavior()
+    {
+        while (Alive)
+        {
+            if (Status == CharacterStates.Panicked)
+            {
+                speed = baseSpeed * 1.5f;
+                if (targetReached || (Target.transform.position - transform.position).sqrMagnitude >= HearRadius)
                 {
-                    Status = CharacterStates.Performing;
-                    DoAction = ActionToPerform.Attacking;
+                    yield return new WaitForSeconds(10f);
+                    if (Status == CharacterStates.Panicked) Status = CharacterStates.Idle;
+                }
+            }
+            yield return new WaitForSeconds(thinkRate);
+        }
+    }
+
+    protected override IEnumerator IdleBehavior()
+    {
+        while (Alive)
+        {
+            if (Status == CharacterStates.Idle)
+            {
+                speed = baseSpeed / 2f;
+                if (targetReached || LastTimeRoaming <= Time.time + 10f)
+                {
+                    yield return new WaitForSeconds(2f);
+                    LastTimeRoaming = Time.time + 10f;
+                    if (Status == CharacterStates.Idle) RandomScatter();
                 }
             }
             yield return new WaitForSeconds(thinkRate);

@@ -7,7 +7,8 @@ using Pathfinding;
 [RequireComponent(typeof(Seeker))]
 [AddComponentMenu("Pathfinding/AI/AIPath (generic)")]
 public class CharacterMain : MonoBehaviour{
-
+    public float Sanity = 100f;
+    public float Health = 100f;
     public bool Alive = true;
     public Vector3 CurrentDirection;
     public float CurrentMagnitude;
@@ -129,7 +130,7 @@ public class CharacterMain : MonoBehaviour{
     //The waypoint we are currently moving towards
     private int currentWaypoint = 0;
 
-    public void Start()
+    public virtual void Start()
     {
         seeker = GetComponent<Seeker>();
         controller = GetComponent<CharacterController2D>();

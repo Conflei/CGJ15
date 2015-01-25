@@ -1,11 +1,43 @@
 fileFormatVersion: 2
-guid: c1e55ae02b781c74c8b57892c4239fc6
+guid: 5429c08f6bb816d4980b655e12f3b604
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: cursor
+    21300002: Exo_Stage_001_1
+    21300004: Exo_Stage_001_2
+    21300006: Exo_Stage_001_3
+    21300008: Exo_Stage_001_4
+    21300010: Exo_Stage_001_5
+    21300012: Exo_Stage_001_6
+    21300014: Exo_Stage_001_7
+    21300016: Exo_Stage_001_8
+    21300018: Exo_Stage_001_9
+    21300020: Exo_Stage_001_10
+    21300022: Exo_Stage_001_11
+    21300024: Exo_Stage_001_12
+    21300026: Exo_Stage_001_13
+    21300028: Exo_Stage_001_14
+    21300030: cilindro_azul
+    21300032: cilindro_naranja
+    21300034: cilindro_verde
+    21300036: cilindro_purpura
+    21300038: Exo_Stage_001_19
+    21300040: Exo_Stage_001_20
+    21300042: Exo_Stage_001_21
+    21300044: Exo_Stage_001_22
+    21300046: Exo_Stage_001_23
+    21300048: Exo_Stage_001_24
+    21300050: Exo_Stage_001_25
+    21300052: Exo_Stage_001_26
+    21300054: Exo_Stage_001_27
+    21300056: Exo_Stage_001_28
+    21300058: Exo_Stage_001_29
+    21300060: Exo_Stage_001_30
+    21300062: Exo_Stage_001_31
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -17,31 +49,351 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: .25
     normalMapFilter: 0
-  isReadable: 0
+  isReadable: 1
   grayScaleToAlpha: 0
   generateCubemap: 0
   seamlessCubemap: 0
-  textureFormat: -1
-  maxTextureSize: 1024
+  textureFormat: -3
+  maxTextureSize: 4096
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
-    wrapMode: -1
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 80
   alphaIsTransparency: 1
-  textureType: 8
+  textureType: 5
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: cursor
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 219
+        width: 21
+        height: 27
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_1
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 206
+        width: 16
+        height: 82
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_2
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 206
+        width: 16
+        height: 82
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_3
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 206
+        width: 40
+        height: 82
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_4
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 165
+        width: 16
+        height: 40
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_5
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 165
+        width: 16
+        height: 40
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_6
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 165
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_7
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 152
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_8
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 152
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_9
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 152
+        width: 40
+        height: 12
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_10
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 206
+        width: 40
+        height: 82
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_11
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 206
+        width: 40
+        height: 82
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_12
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 206
+        width: 48
+        height: 82
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_13
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 137
+        width: 16
+        height: 68
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_14
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 122
+        width: 16
+        height: 83
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cilindro_azul
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 87
+        width: 17
+        height: 33
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cilindro_naranja
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 87
+        width: 17
+        height: 33
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cilindro_verde
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 53
+        width: 17
+        height: 33
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cilindro_purpura
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 53
+        width: 17
+        height: 33
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_19
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 2
+        width: 36
+        height: 78
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_20
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 2
+        width: 36
+        height: 50
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_21
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 26
+        width: 18
+        height: 23
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_22
+      rect:
+        serializedVersion: 2
+        x: 204
+        y: 2
+        width: 18
+        height: 23
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_23
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 49
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_24
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 49
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_25
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 56
+        width: 52
+        height: 39
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_26
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 56
+        width: 48
+        height: 63
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_27
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 2
+        width: 44
+        height: 53
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_28
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 2
+        width: 35
+        height: 39
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_29
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 2
+        width: 18
+        height: 39
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_30
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 2
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Exo_Stage_001_31
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 2
+        width: 48
+        height: 46
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

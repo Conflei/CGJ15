@@ -9,7 +9,8 @@ public class Alien : CharacterMain
     public float HearRadius = 10f;
     public float SeeRadius = 5f;
     public float AttackRadius = 1f;
-    public float LastTimeRoaming = -9f;
+    public float LastTimeRoaming = 0f;
+    public float RoamRate = 20f;
     public List<GameObject> FleePositions;
     public GameObject Target;
 
@@ -26,7 +27,7 @@ public class Alien : CharacterMain
         }
     }
 
-    public void Start()
+    public override void Start()
     {
         seeker = GetComponent<Seeker>();
         controller = GetComponent<CharacterController2D>();
@@ -154,11 +155,10 @@ public class Alien : CharacterMain
         {
             if (Status == CharacterStates.Idle)
             {
-                speed = baseSpeed / 2f;
-                if (targetReached || LastTimeRoaming <= Time.time + 10f)
+                speed = baseSpeed * 0.8f;
+                if (targetReached || LastTimeRoaming <= Time.time)
                 {
-                    yield return new WaitForSeconds(2f);
-                    LastTimeRoaming = Time.time + 10f;
+                    LastTimeRoaming = Time.time + RoamRate;
                     if (Status == CharacterStates.Idle) RandomScatter();
                 }
             }

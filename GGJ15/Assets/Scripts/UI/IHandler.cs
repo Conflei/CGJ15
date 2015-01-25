@@ -5,6 +5,8 @@ using System;
 
 public class IHandler : MonoBehaviour {
 
+	public Texture2D customCursor;
+
 	public enum monsterEmo
 		{
 		searching,
@@ -46,6 +48,7 @@ public class IHandler : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Cursor.SetCursor (customCursor, Vector2.one / 2f, CursorMode.Auto);
 		actualEmotion = monsterEmo.searching;
 		monsterAlert = false;
 		BeginCicle ();

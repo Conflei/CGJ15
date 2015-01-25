@@ -9,6 +9,8 @@ public class InfoPanel : MonoBehaviour {
 	public GameObject outScreenPos;
 	public Text allComments;
 	public Text title;
+	public Slider hpSlide;
+	public Slider sanitySlide;
 
 
 	// Use this for initialization
@@ -36,6 +38,8 @@ public class InfoPanel : MonoBehaviour {
 				allComments.text += ",>>>"+comment;
 				allComments.text = allComments.text.Replace(",", "\n");
 			}
+			hpSlide.value = GameObject.FindGameObjectWithTag ("UI").GetComponent<IHandler> ().comLife.value;
+			sanitySlide.value = GameObject.FindGameObjectWithTag ("UI").GetComponent<IHandler> ().comSanity.value;
 			break;
 		case 2:
 			title.text = "Doctor";
@@ -45,6 +49,8 @@ public class InfoPanel : MonoBehaviour {
 				allComments.text += ",>>>"+comment;
 				allComments.text = allComments.text.Replace(",", "\n");
 			}
+			hpSlide.value = GameObject.FindGameObjectWithTag ("UI").GetComponent<IHandler> ().medLife.value;
+			sanitySlide.value = GameObject.FindGameObjectWithTag ("UI").GetComponent<IHandler> ().medSanity.value;
 			break;
 		case 3:
 			title.text = "Ingeniero";
@@ -54,6 +60,8 @@ public class InfoPanel : MonoBehaviour {
 				allComments.text += ",>>>"+comment;
 				allComments.text = allComments.text.Replace(",", "\n");
 			}
+			hpSlide.value = GameObject.FindGameObjectWithTag ("UI").GetComponent<IHandler> ().engLife.value;
+			sanitySlide.value = GameObject.FindGameObjectWithTag ("UI").GetComponent<IHandler> ().engSanity.value;
 			break;
 		case 4:
 			title.text = "Cientifico";
@@ -63,8 +71,12 @@ public class InfoPanel : MonoBehaviour {
 				allComments.text += ",>>>"+comment;
 				allComments.text = allComments.text.Replace(",", "\n");
 			}
+			hpSlide.value = GameObject.FindGameObjectWithTag ("UI").GetComponent<IHandler> ().sciLife.value;
+			sanitySlide.value = GameObject.FindGameObjectWithTag ("UI").GetComponent<IHandler> ().sciSanity.value;
 			break;
 		}
+
+
 
 		iTween.MoveTo(gameObject,iTween.Hash("position",onScreenPos.transform.position,"time",1f));
 	}
